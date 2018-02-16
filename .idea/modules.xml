@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/android-base-views/android-base-views.iml" filepath="$PROJECT_DIR$/android-base-views/android-base-views.iml" />
+      <module fileurl="file://$PROJECT_DIR$/android-toolbar-base-views/android-toolbar-base-views.iml" filepath="$PROJECT_DIR$/android-toolbar-base-views/android-toolbar-base-views.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/base-views-protocols.iml" filepath="$PROJECT_DIR$/base-views-protocols.iml" />
+      <module fileurl="file://$PROJECT_DIR$/buildSrc/buildSrc.iml" filepath="$PROJECT_DIR$/buildSrc/buildSrc.iml" />
+      <module fileurl="file://$PROJECT_DIR$/dagger-android-base-views/dagger-android-base-views.iml" filepath="$PROJECT_DIR$/dagger-android-base-views/dagger-android-base-views.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rx-android-base-views/rx-android-base-views.iml" filepath="$PROJECT_DIR$/rx-android-base-views/rx-android-base-views.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rx-dagger-android-base-views/rx-dagger-android-base-views.iml" filepath="$PROJECT_DIR$/rx-dagger-android-base-views/rx-dagger-android-base-views.iml" />
+    </modules>
+  </component>
+</project>

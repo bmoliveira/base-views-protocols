@@ -1,0 +1,37 @@
+apply plugin: 'com.android.application'
+apply from: '../common-dependencies.gradle'
+
+
+android {
+  compileSdkVersion Versions.targetSDK
+
+  defaultConfig {
+    applicationId "com.broliveira.view.example"
+    minSdkVersion Versions.minSDK
+    targetSdkVersion Versions.targetSDK
+    versionCode Versions.versionCode
+    versionName Versions.versionName
+    testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+  }
+
+  buildTypes {
+    release {
+      minifyEnabled false
+      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+    }
+  }
+}
+
+dependencies {
+  implementation AndroidDependencies.supportAppCompatV7
+  implementation AndroidDependencies.supportDesign
+
+  implementation AndroidDependencies.anko
+  implementation AndroidDependencies.ankoAppCompatV7
+  implementation AndroidDependencies.ankoDesign
+
+  implementation project(':android-base-views')
+  implementation project(':android-toolbar-base-views')
+
+  implementation AndroidDependencies.broliveiraExtensions
+}

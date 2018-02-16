@@ -1,0 +1,44 @@
+fastlane_version "2.68.2"
+
+default_platform :android
+
+platform :android do
+  desc "Runs all the tests"
+  lane :test do
+    gradle(task: "test")
+  end
+
+  desc "Deploy android-base-views to bintray"
+    lane :deploy_android_base_views do
+    deploy_module_bintray(module_name: "android-base-views", should_clean: true)
+  end
+
+  desc "Deploy android-toolbar-base-views to bintray"
+  lane :deploy_android_toolbar_base_views do
+    deploy_module_bintray(module_name: "android-toolbar-base-views", should_clean: true)
+  end
+
+  desc "Deploy rx-android-base-views to bintray"
+  lane :deploy_rx_android_base_views do
+    deploy_module_bintray(module_name: "rx-android-base-views", should_clean: true)
+  end
+
+  desc "Deploy dagger-android-base-views to bintray"
+  lane :deploy_dagger_android_base_views do
+    deploy_module_bintray(module_name: "dagger-android-base-views", should_clean: true)
+  end
+
+  desc "Deploy rx-dagger-android-base-views to bintray"
+  lane :deploy_rx_dagger_android_base_views do
+    deploy_module_bintray(module_name: "rx-dagger-android-base-views", should_clean: true)
+  end
+
+  desc "Deploy all libs to bintray"
+  lane :deploy do
+    deploy_module_bintray(module_name: "android-base-views", should_clean: true)
+    deploy_module_bintray(module_name: "android-toolbar-base-views")
+    deploy_module_bintray(module_name: "rx-android-base-views")
+    deploy_module_bintray(module_name: "dagger-android-base-views")
+    deploy_module_bintray(module_name: "rx-dagger-android-base-views")
+  end
+end

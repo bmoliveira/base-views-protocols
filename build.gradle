@@ -1,0 +1,28 @@
+buildscript {
+
+  repositories {
+    google()
+    jcenter()
+  }
+
+  dependencies {
+    classpath BuildScriptDependencies.gradlePlugin
+    classpath BuildScriptDependencies.kotlinGradlePlugin
+    classpath BuildScriptDependencies.bintrayPlugin
+    classpath BuildScriptDependencies.mavenPlugin
+    classpath BuildScriptDependencies.dokkaPlugin
+  }
+}
+
+allprojects {
+  repositories {
+    google()
+    jcenter()
+    mavenCentral()
+    maven { url "https://dl.bintray.com/boliveira/maven" }
+  }
+}
+
+task clean(type: Delete) {
+  delete rootProject.buildDir
+}
