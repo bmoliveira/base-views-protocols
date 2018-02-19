@@ -26,6 +26,11 @@ Runs all the tests
 fastlane android deploy_android_base_views
 ```
 Deploy android-base-views to bintray
+### android deploy_android_toolbar_base_views
+```
+fastlane android deploy_android_toolbar_base_views
+```
+Deploy android-toolbar-base-views to bintray
 ### android deploy_rx_android_base_views
 ```
 fastlane android deploy_rx_android_base_views

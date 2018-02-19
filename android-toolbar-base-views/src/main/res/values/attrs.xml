@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <declare-styleable name="ToolbarView">
+    <attr name="toolbarLayoutId" format="reference" />
+    <attr name="editTextLayoutId" format="reference" />
+  </declare-styleable>
+</resources>

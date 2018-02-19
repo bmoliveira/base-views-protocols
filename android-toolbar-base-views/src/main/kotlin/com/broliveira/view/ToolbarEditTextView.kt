@@ -1,71 +1,106 @@
 package com.broliveira.view
 
 import android.content.Context
+import android.support.design.widget.AppBarLayout
+import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.LinearLayout
 import com.broliveira.protocol.ToolbarViewType
-import org.jetbrains.anko.linearLayout
+import com.broliveira.view.base.toolbar.R
+import org.jetbrains.anko.layoutInflater
 
-open class ToolbarEditTextView(context: Context, attrs: AttributeSet?): ToolbarView(context, attrs) {
+// TODO: Add clear button to reset text
+open class ToolbarEditTextView @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet?,
+    mToolbar: Toolbar? = null,
+    mEditText: EditText? = null):  ToolbarView(context, attrs, mToolbar) {
 
-  private val toolbarEditTextContainer: LinearLayout = LinearLayout(context, attrs)
+  constructor(
+      context: Context,
+      attrs: AttributeSet? = null,
+      toolbarResId: Int): this(context, attrs, context.layoutInflater.inflate(toolbarResId, null) as? Toolbar)
 
-  val editTextView: EditText = EditText(context, attrs)
+  private val editTextFromResID: EditText? by lazy {
+    getResourceID(R.styleable.ToolbarView_editTextLayoutId, attrs, context)
+        ?.let { context.layoutInflater.inflate(it, null) as? EditText }
+  }
 
-  val toolbarLayoutParams: LayoutParams? = toolbar.layoutParams as LayoutParams
+  private val toolbarEditTextContainer: LinearLayout by lazy {
+    LinearLayout(context, attrs).apply {
+      layoutParams = Toolbar.LayoutParams(Toolbar.LayoutParams.MATCH_PARENT, Toolbar.LayoutParams.WRAP_CONTENT)
+      isFocusable = true
+    }
+  }
+
+  var currentState = ToolbarViewType.TEXT
+
+  private var lastTitle: CharSequence?
+
+  private var lastSubtitle: CharSequence? = this.toolbar.subtitle
+
+  val toolbarEditText: EditText by lazy {
+    val editText = mEditText ?: editTextFromResID ?: EditText(context, attrs)
+    editText.layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+    editText
+  }
+
+  val toolbarLayoutParams: AppBarLayout.LayoutParams? by lazy { toolbar.layoutParams as? AppBarLayout.LayoutParams }
 
   init {
     buildView()
-    customizeEditText()
-    customizeLinearLayout()
+    this.lastTitle = toolbar.title
+    this.lastSubtitle = toolbar.subtitle
+
+    customizeEditText(toolbarEditText)
+    customizeLinearLayout(toolbarEditTextContainer)
+
+    updateStatus(currentState)
   }
 
-  fun customizeEditText() {
-    toolbarEditTextContainer.layoutParams =
-        LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
-  }
+  open fun customizeEditText(editText: EditText) {}
 
-  fun customizeLinearLayout() {
-    toolbarEditTextContainer.layoutParams =
-        LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
-  }
+  open fun customizeLinearLayout(linearLayout: LinearLayout) {}
 
-  final override fun buildView() {
-    super.buildView()
-    linearLayout().addView(editTextView)
-    toolbar.addView(linearLayout())
+  private fun buildView() {
+    toolbarEditTextContainer.addView(toolbarEditText)
+    toolbar.addView(toolbarEditTextContainer)
   }
 
   override fun requestLayout() {
     super.requestLayout()
-    toolbar.requestLayout()
+    try { toolbar.requestLayout() } catch (ignored: Exception) {}
   }
 
   fun updateStatus(type: ToolbarViewType) {
+    currentState = type
     when (type) {
       ToolbarViewType.TEXT -> {
         toolbarEditTextContainer.visibility = View.GONE
-        editTextText = null
         title = lastTitle
         subtitle = lastSubtitle
+        (context.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager)
+            ?.hideSoftInputFromWindow(toolbarEditText.windowToken, InputMethodManager.SHOW_IMPLICIT)
       }
       ToolbarViewType.EDIT_TEXT -> {
         toolbarEditTextContainer.visibility = View.VISIBLE
-        editTextView.requestFocus()
+        toolbarEditText.requestFocus()
+        (context.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager)
+            ?.showSoftInput(toolbarEditText, InputMethodManager.SHOW_IMPLICIT)
       }
     }
   }
 
   var editTextText: String?
-    get() = editTextView.text?.toString()
+    get() = toolbarEditText.text?.toString()
     set(value) {
-      editTextView.setText(value)
-      editTextView.setSelection(value?.length ?: 0)
+      toolbarEditText.setText(value)
+      toolbarEditText.setSelection(value?.length ?: 0)
     }
 
-  private var lastTitle: CharSequence? = toolbar.title
   var title: CharSequence?
     get() = toolbar.title
     set(value) {
@@ -73,7 +108,6 @@ open class ToolbarEditTextView(context: Context, attrs: AttributeSet?): ToolbarV
       toolbar.title = value
     }
 
-  private var lastSubtitle: CharSequence? = toolbar.subtitle
   var subtitle: CharSequence?
     get() = toolbar.subtitle?.toString()
     set(value) {

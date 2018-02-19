@@ -2,6 +2,7 @@ package com.broliveira.protocol
 
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
+import com.broliveira.view.ToolbarEditTextView
 import com.broliveira.view.ToolbarView
 
 //Protocol to views that contain operations with a ToolbarView

@@ -3,7 +3,7 @@ apply from: '../common-dependencies.gradle'
 
 
 android {
-  compileSdkVersion Versions.targetSDK
+  compileSdkVersion 26
 
   defaultConfig {
     applicationId "com.broliveira.view.example"
@@ -25,13 +25,11 @@ android {
 dependencies {
   implementation AndroidDependencies.supportAppCompatV7
   implementation AndroidDependencies.supportDesign
-
   implementation AndroidDependencies.anko
   implementation AndroidDependencies.ankoAppCompatV7
   implementation AndroidDependencies.ankoDesign
-
   implementation project(':android-base-views')
   implementation project(':android-toolbar-base-views')
-
   implementation AndroidDependencies.broliveiraExtensions
+  implementation AndroidDependencies.broliveiraViewHelper
 }

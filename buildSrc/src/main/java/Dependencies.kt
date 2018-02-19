@@ -16,7 +16,7 @@ object Versions {
 
   val broliveiraExtensions = "0.1"
   val broliveiraDisposer = "0.2"
-  val broliveiraViewHelper = "0.4"
+  val broliveiraViewHelper = "0.5"
 
   val rxJava = "2.1.0"
 
